@@ -11,24 +11,9 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors import UserNotParticipant
 
-force_channel = "IndianRobots"
+force_channel = "AstroverseTG"
 
-# Replace with your Telegram Bot API Token
-BOT_TOKEN = "7398500602:AAFZJPiJa-igPnJthlxslZWDBnkwiLkZmlU"
-
-# Replace with your Telegram App API ID and Hash
-API_ID = "22136772"
-API_HASH = "7541e5b6d298eb1f60dac89aae92868c"
-
-# Initialize the Pyrogram client
-bot = Client(
-    "live-recording-bot",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=BOT_TOKEN,
-)
-
-@bot.on_message(filters.command("start"))
+@Client.on_message(filters.command("start"))
 async def start(bot, update):
     if force_channel:
         try:
@@ -46,7 +31,7 @@ async def start(bot, update):
             )
             return
     await update.reply_photo(
-        photo="http://postimg.cc/3ddb8qWD",
+        photo="http://postimg.cc/gxfR1pgN",
         caption=f"""<b> Hey There {update.from_user.mention} 👋,
 
 I am a Live Recorder Bot, Just Send Me Any Supported URL In Appropriate Format and I'll upload file remotely to Telegram.
@@ -54,18 +39,18 @@ I am a Live Recorder Bot, Just Send Me Any Supported URL In Appropriate Format a
 💡 Use /help to learn how to use the bot.
 🔒 Subscription required for usage.
 
-⚜ Maintained By : @IndianRobots </b>""",
+⚜ Maintained By : @AstroverseTG </b>""",
         reply_markup=InlineKeyboardMarkup( [[
-            InlineKeyboardButton("📣 Updates", url="t.me/IndianRobots"),
-            InlineKeyboardButton("👥 Support", url="t.me/IndianRobots")
+            InlineKeyboardButton("📣 Updates", url="t.me/AstroverseTG"),
+            InlineKeyboardButton("👥 Support", url="t.me/AstroverseTG")
             ]]
             )
         )
 
-@bot.on_message(filters.command("help"))
+@Client.on_message(filters.command("help"))
 async def help(client, message):
     await message.reply_photo(
-        photo="http://postimg.cc/3ddb8qWD",
+        photo="http://postimg.cc/gxfR1pgN",
         caption=f"""<b> Hey There {message.from_user.mention} 👋,
 
 📝 How to Record Live Streams
@@ -79,35 +64,36 @@ Time Format: HH:MM:SS
 
 Note : 
 -----
+- Use filename without spaces, use underscores instead
 - Duration accuracy may vary depending on stream source
 - Custom filename is optional
-- If no filename is provided, "Recorded_by_@IndianRobots.mp4" will be used
+- If no filename is provided, "Recorded_by_@AstroverseTG.mp4" will be used
 
-⚜ Maintained By : @IndianRobots </b>""",
+⚜ Maintained By : @AstroverseTG </b>""",
         reply_markup=InlineKeyboardMarkup( [[
-            InlineKeyboardButton("📣 Updates", url="t.me/IndianRobots"),
-            InlineKeyboardButton("👥 Support", url="t.me/IndianRobots")
+            InlineKeyboardButton("📣 Updates", url="t.me/AstroverseTG"),
+            InlineKeyboardButton("👥 Support", url="t.me/AstroverseTG")
             ]]
             )
         )
 
-@bot.on_message(filters.command("about"))
+@Client.on_message(filters.command("about"))
 async def about(client, message):
     await message.reply_photo(
-        photo="http://postimg.cc/3ddb8qWD",
+        photo="http://postimg.cc/gxfR1pgN",
         caption=f"""<b> Hey There {message.from_user.mention} 👋,
 
 ⍟ My Name : Live Recorder Bot
 ⍟ Owner : @YadhuTG
-⍟ Updates Channel : @IndianRobots
+⍟ Updates Channel : @AstroverseTG
 ⍟ Language : Python3
 ⍟ Library : Pyrogram
 ⍟ Server : VPS 
 
-⚜ Maintained By : @IndianRobots </b>""",
+⚜ Maintained By : @AstroverseTG </b>""",
         reply_markup=InlineKeyboardMarkup( [[
-            InlineKeyboardButton("📣 Updates", url="t.me/IndianRobots"),
-            InlineKeyboardButton("👥 Support", url="t.me/IndianRobots")
+            InlineKeyboardButton("📣 Updates", url="t.me/AstroverseTG"),
+            InlineKeyboardButton("👥 Support", url="t.me/AstroverseTG")
             ]]
             )
         )
@@ -141,7 +127,7 @@ async def get_file_name(url):
 async def download_stream_requests(url, file_name, message, custom_time):
     """Downloads the stream using requests."""
     try:
-        output_template = file_name or "Recorded_by_@IndianRobots.mp4"
+        output_template = file_name or "Recorded_by_@AstroverseTG.mp4"
         if not output_template.endswith(".mp4"):
             output_template += ".mp4"
 
@@ -153,11 +139,11 @@ async def download_stream_requests(url, file_name, message, custom_time):
 
         total_length = response.headers.get("content-length")
         if total_length is None:  # no content length header
-            await message.edit_text("Downloading...")
+            await message.edit_text(f"<b> Downloading... </b>")
         else:
             total_length = int(total_length)
 
-        chunk_size = 65536  # 64KB chunks (increased buffer size) - Adjust this as needed
+        chunk_size=2048 * 1024  # Default chunk size: 2MB
         bytes_downloaded = 0
 
         with open(output_template, "wb") as f:
@@ -169,39 +155,40 @@ async def download_stream_requests(url, file_name, message, custom_time):
                     if total_length:
                         percent = (bytes_downloaded / total_length) * 100
                         await message.edit_text(
-                            f"Downloading: {percent:.2f}% ({bytes_downloaded / (1024 * 1024):.2f} MB / {total_length / (1024 * 1024):.2f} MB)"
+                            f"<b> Downloading: {percent:.2f}% ({bytes_downloaded / (1024 * 1024):.2f} MB / {total_length / (1024 * 1024):.2f} MB</b>)"
                         )  # Progress update
                     print(f"Downloaded chunk of size: {len(chunk)}") #Log each chunk
         end_time = time.time()
         download_time = end_time - start_time
         await message.edit_text(
-            f"Download complete! Saved as {output_template}\nDownload Time: {download_time:.2f} seconds"
+            f"<b> Download complete! Saved as {output_template}\nDownload Time: {download_time:.2f} seconds </b>"
         )
         return output_template  # return filepath
 
     except requests.exceptions.RequestException as e:
         print(f"RequestException during download: {e}")
-        await message.edit_text(f"Download failed: {e}")
+        await message.edit_text(f"<b> Download failed: {e} </b>")
         return None
     except Exception as e:
         print(f"Exception during download: {e}")
-        await message.edit_text(f"An unexpected error occurred:\n{e}")
+        await message.edit_text(f"<b> An unexpected error occurred:\n{e} </b>")
         return None
 
 
 async def upload_video(file_path, message, file_name):
     """Uploads the recorded video to Telegram."""
     if not os.path.exists(file_path):
-        await message.edit_text(f"Error: File not found at {file_path}")
+        await message.edit_text(f"<b> Error: File not found at {file_path} </b>")
         return
 
     try:
         duration = await get_video_duration(file_path)  # Get video duration
-        await message.edit_text("Uploading...")
-        await bot.send_video(
-            chat_id=message.chat.id,
+        await message.edit_text(f"<b> Uploading... </b>")
+        await message.reply_video(
             video=file_path,
-            caption=f"{file_name}/n/nRecorded By @IndianRobots",
+            caption=f"""{file_name}
+            
+➸ Recorded By @AstroverseTG""",
             duration=duration,  # Set video duration
             supports_streaming=True,  # Enable streaming if supported
         )
@@ -209,7 +196,7 @@ async def upload_video(file_path, message, file_name):
         os.remove(file_path)  # Delete the local file after upload
     except Exception as e:
         print(f"Upload failed: {e}")
-        await message.edit_text(f"Upload failed: {e}")
+        await message.edit_text(f"<b> Upload failed: {e} </b>")
         if os.path.exists(file_path):
             os.remove(file_path)  # Delete file on failure as well to avoid disk clogging
 
@@ -242,17 +229,17 @@ async def get_video_duration(file_path):
         return 0  # Error during processing
 
 
-@bot.on_message(filters.command("download"))
+@Client.on_message(filters.command("download"))
 async def download_command(client, message):
     """Handles the /download command."""
     args = message.text.split(maxsplit=1)
     if len(args) < 2:
-        await message.reply_text("Usage: /download <URL> [filename] [custom_time]")
+        await message.reply_text("<b> Usage: /download <URL> [filename] [custom_time] </b>")
         return
 
     url = args[1].split()[0]
     if not await is_url(url):
-        await message.reply_text("Invalid URL provided.")
+        await message.reply_text("<b> Invalid URL provided. </b>")
         return
 
     file_name = None
@@ -276,7 +263,7 @@ async def download_command(client, message):
     )
 
     download_message = await message.reply_text(
-        "Starting download...", reply_markup=reply_markup
+        "<b> Starting download... </b>", reply_markup=reply_markup
     )
 
     file_path = await download_stream_requests(url, file_name, download_message, custom_time)
@@ -285,13 +272,9 @@ async def download_command(client, message):
         await upload_video(file_path, download_message, file_name)
 
 
-@bot.on_callback_query(filters.regex("cancel_download"))
+@Client.on_callback_query(filters.regex("cancel_download"))
 async def cancel_download_callback(client, callback_query):
     """Handles the cancel button."""
     await callback_query.answer("Download cancelled.")
     await callback_query.message.edit_text("Download cancelled by user.")
     # Termination of yt-dlp process is handled in download_stream function.
-
-
-print("Bot started.")
-bot.run()
