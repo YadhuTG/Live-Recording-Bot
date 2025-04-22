@@ -143,7 +143,7 @@ async def download_stream_requests(url, file_name, message, custom_time):
         else:
             total_length = int(total_length)
 
-        chunk_size=2048 * 1024  # Default chunk size: 2MB
+        chunk_size=860 * 1024  # Default chunk size: 860 KB
         bytes_downloaded = 0
 
         with open(output_template, "wb") as f:
