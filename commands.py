@@ -13,6 +13,20 @@ from pyrogram.errors import UserNotParticipant
 
 force_channel = "AstroverseTG"
 
+amritha = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302676"
+kairali = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302672"
+kairaliwe = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302673"
+asianetmovies = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302675"
+asianet = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302691"
+asianetplus = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302692"
+mazhavilmanorama = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302677"
+suryacomedy = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302865"
+flowers = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302847"
+suryamovies = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/269774"
+zeekeralam = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/307795"
+kochutv = "http://webxapp.xyz:8080/pf4NDv2T9Nrn/qF3pgVgJ2bmz/302686"
+
+
 @Client.on_message(filters.command("start"))
 async def start(bot, update):
     if force_channel:
