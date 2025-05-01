@@ -19,16 +19,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 # --- CONFIGURATION ---
-API_ID = "YOUR_API_ID"
-API_HASH = "YOUR_API_HASH"
-BOT_TOKEN = "YOUR_BOT_TOKEN"
-OWNER_ID = YOUR_TELEGRAM_ID
+OWNER_ID = 8083702486
 MAX_FREE_DOWNLOADS = 3
 MAX_UPLOAD_SIZE = 4 * 1024 * 1024 * 1024  # 4GB
 ADMINS = [8083702486]
 
 # --- DATABASE CONFIGURATION ---
-MONGODB_URI = "YOUR_MONGODB_URI"  # e.g., "mongodb://user:password@host:port/database"
+MONGODB_URI = "mongodb+srv://astrobotzofficial:astrobotzofficial@cluster0.lchxt82.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # e.g., "mongodb://user:password@host:port/database"
 DATABASE_NAME = "stream_recorder_db"
 USER_COLLECTION_NAME = "users"
 
