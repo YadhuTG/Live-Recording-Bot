@@ -4,3 +4,4 @@ asyncio
 requests
 ffmpeg
 pymongo
+pyromod==1.5
