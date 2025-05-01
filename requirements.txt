@@ -1,6 +1,7 @@
 pyrogram
 tgcrypto
 asyncio
+aiohttp
 requests
 ffmpeg
 pymongo
