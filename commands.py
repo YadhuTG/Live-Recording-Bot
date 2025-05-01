@@ -1,4 +1,3 @@
-
 import asyncio
 import logging
 import os
@@ -26,14 +25,12 @@ BOT_TOKEN = "YOUR_BOT_TOKEN"
 OWNER_ID = YOUR_TELEGRAM_ID
 MAX_FREE_DOWNLOADS = 3
 MAX_UPLOAD_SIZE = 4 * 1024 * 1024 * 1024  # 4GB
-ADMINS = [OWNER_ID]
+ADMINS = [8083702486]
 
 # --- DATABASE CONFIGURATION ---
 MONGODB_URI = "YOUR_MONGODB_URI"  # e.g., "mongodb://user:password@host:port/database"
 DATABASE_NAME = "stream_recorder_db"
 USER_COLLECTION_NAME = "users"
-# --- Pyrogram Client ---
-app = Client("stream_recorder_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 # --- MongoDB Client ---
 mongo_client = pymongo.MongoClient(MONGODB_URI)
@@ -166,7 +163,7 @@ async def progress_callback(current, total, client, chat_id, message_text):
 
 # --- Command Handlers ---
 
-@app.on_message(filters.command("start"))
+@Client.on_message(filters.command("start"))
 async def start_command(client: Client, message: Message):
     user_id = message.from_user.id
     reply_markup = InlineKeyboardMarkup(
@@ -176,7 +173,7 @@ async def start_command(client: Client, message: Message):
     )
     await message.reply_text("Welcome to the Stream Recorder Bot!\n\nUse /record to start recording a stream.", reply_markup=reply_markup)
 
-@app.on_callback_query()
+@Client.on_callback_query()
 async def help_callback(client: Client, callback_query: CallbackQuery):
     if callback_query.data == "help":
         await callback_query.answer()
@@ -192,7 +189,7 @@ async def help_callback(client: Client, callback_query: CallbackQuery):
             "/myinfo - Shows your premium status and download count.\n"
         )
 
-@app.on_message(filters.command("record"))
+@Client.on_message(filters.command("record"))
 async def record_command(client: Client, message: Message):
     user_id = message.from_user.id
     if not can_download(user_id):
@@ -310,7 +307,7 @@ async def record_command(client: Client, message: Message):
 
 
 
-@app.on_message(filters.command("setcaption"))
+@Client.on_message(filters.command("setcaption"))
 async def set_caption_command(client: Client, message: Message):
     user_id = message.from_user.id
     try:
@@ -320,7 +317,7 @@ async def set_caption_command(client: Client, message: Message):
     except IndexError:
         await message.reply_text("Usage: /setcaption <new caption>")
 
-@app.on_message(filters.command("setthumbnail") & filters.reply)
+@Client.on_message(filters.command("setthumbnail") & filters.reply)
 async def set_thumbnail_command(client: Client, message: Message):
     user_id = message.from_user.id
     replied_message = message.reply_to_message
@@ -333,7 +330,7 @@ async def set_thumbnail_command(client: Client, message: Message):
     else:
         await message.reply_text("Reply to an image to set as thumbnail.")
 
-@app.on_message(filters.command("promote") & filters.user(ADMINS))
+@Client.on_message(filters.command("promote") & filters.user(ADMINS))
 async def promote_command(client: Client, message: Message):
     try:
         user_id_to_promote = int(message.text.split(" ")[1])
@@ -342,7 +339,7 @@ async def promote_command(client: Client, message: Message):
     except (IndexError, ValueError):
         await message.reply_text("Usage: /promote <user_id>")
 
-@app.on_message(filters.command("demote") & filters.user(ADMINS))
+@Client.on_message(filters.command("demote") & filters.user(ADMINS))
 async def demote_command(client: Client, message: Message):
     try:
         user_id_to_demote = int(message.text.split(" ")[1])
@@ -351,7 +348,7 @@ async def demote_command(client: Client, message: Message):
     except (IndexError, ValueError):
         await message.reply_text("Usage: /demote <user_id>")
 
-@app.on_message(filters.command("myinfo"))
+@Client.on_message(filters.command("myinfo"))
 async def myinfo_command(client: Client, message: Message):
     user_id = message.from_user.id
     user_data = get_user_data(user_id)
