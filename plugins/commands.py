@@ -358,6 +358,3 @@ async def myinfo_command(client: Client, message: Message):
         info_text += f"Downloads Today: {downloads_today} / {MAX_FREE_DOWNLOADS}"
 
     await message.reply_text(info_text)
-
-# --- Start the Bot ---
-app.run()
