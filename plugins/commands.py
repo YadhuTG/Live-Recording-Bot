@@ -49,8 +49,7 @@ Choose one of the options to continue... </b>""",
             )
         )
 
-@Client.on_callback_query(filters.regex("^mission")) # Only handle data that starts with button_
+@Client.on_callback_query(filters.regex("^mission_")) # Only handle data that starts with button_
 async def handle_button_callbacks(client, callback_query):
-    button_number = callback_query.data.split("_")[1]
     await callback_query.answer("Error while Generating Sample Video, Try with another file..☺️")
-    await callback_query.message.edit_text("Error while Generating Sample Video, Try with another file..☺️")
+    await callback_query.message.edit_text("Error while Generating Sample Video, Try with another file.")
