@@ -3,6 +3,8 @@ tgcrypto
 asyncio
 aiohttp
 requests
+hachoir
+ytdlp
 ffmpeg
 pymongo
 pyromod==1.5
