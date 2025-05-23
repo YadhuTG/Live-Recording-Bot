@@ -4,7 +4,7 @@ asyncio
 aiohttp
 requests
 hachoir
-ytdlp
+yt_dlp
 ffmpeg
 pymongo
 pyromod==1.5
