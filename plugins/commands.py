@@ -13,7 +13,7 @@ from hachoir.metadata import extractMetadata
 ADMIN_IDS = [8083702486]  # Your Telegram user IDs here
 
 
-mongo = MongoClient("mongodb://localhost:27017/")
+mongo = MongoClient("mongodb+srv://storymachineofficial:storymachineofficial@cluster0.snchtpl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = mongo["Cluster0"]
 jobs = db["downloads"]
 users = db["users"]
