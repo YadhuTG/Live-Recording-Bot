@@ -77,7 +77,13 @@ Lucifer S03E01
     await message.reply_text(f"<b> ❗️Send Movie Name and Year Correctly. 👍 </b>")
 
 @Client.on_callback_query(filters.regex("^movie_")) # Only handle data that starts with button_
-async def handle_button_callbacks(client, callback_query):
+async def movie_button(client, callback_query):
+    user_id = callback_query.from_user.id
+    if user_id not in ADMINS:
+        await callback_query.message.reply_text(f"<b> Sorry Dude, You are Banned. </b>")
+        callback_query.answer()  # to stop loading animation
+        return
+        
     reply_markup = ReplyKeyboardMarkup(
         [[KeyboardButton("Share Contact 📱", request_contact=True)]],
         resize_keyboard=True, one_time_keyboard=True
@@ -93,28 +99,13 @@ async def handle_button_callbacks(client, callback_query):
 async def search_movie(client, message):
     query = message.text
     reply_markup = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data=f"movie_{query}")]]
+        [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data=f"movie")]]
     )
     await message.reply_text(f"""<b> 🔍 Results for your Search 
 
 ➠ Latest Uploads: @ProSearchZ
  ➠➠ BOT Updates: @ProSearch🔻 </b>""", reply_markup=reply_markup)
-
-# Handler for button press with admin check
-@Client.on_callback_query()
-async def movie_button(client, callback_query):
-    user_id = callback_query.from_user.id
-    query = callback_query.data.split("_", 1)[1]
-    data = callback_query.data
     
-    if data == "movie_{query}":
-    if user_id not in ADMINS:
-        await callback_query.message.reply_text(f"<b> Sorry Dude, You are Banned. </b>")
-        callback_query.answer()  # to stop loading animation
-        return
-    
-    
-
 # Handler for receiving contact
 @Client.on_message(filters.contact)
 async def contact_received(client, message):
