@@ -86,7 +86,7 @@ def search_movie(client, message):
     reply_markup = InlineKeyboardMarkup(
         [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data=f"movie_{query}")]]
     )
-    message.reply_text(f"""<b> 🔍 Results for your Search 
+    await message.reply_text(f"""<b> 🔍 Results for your Search 
 
 ➠ Latest Uploads: @ProSearchZ
  ➠➠ BOT Updates: @ProSearch🔻 </b>""", reply_markup=reply_markup)
