@@ -4,7 +4,7 @@ import asyncio
 import re
 
 # List of Admin User IDs
-ADMINS = [8083702486]  # Replace with your Telegram user IDs
+ADMINS = [6431520174]  # Replace with your Telegram user IDs
 
 # /start command
 @Client.on_message(filters.command("start"))
@@ -101,7 +101,7 @@ async def movie_button(client, callback_query):
         resize_keyboard=True, one_time_keyboard=True
     )
     await callback_query.message.reply_text(
-        f"<b> Now please send your PHONE_NUMBER along with the country code. </b>",
+        f"<b> Now please send your PHONE_NUMBER along with the country code. Use the below button to share your contact </b>",
         reply_markup=reply_markup
     )
     await callback_query.answer()
