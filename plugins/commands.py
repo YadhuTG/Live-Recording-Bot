@@ -81,6 +81,7 @@ async def movie_button(client, callback_query):
         callback_query.message.reply_text(f"<b> Sorry Dude, You are Banned. </b>")
         callback_query.answer()  # to stop loading animation
         return
+        
     reply_markup = ReplyKeyboardMarkup(
         [[KeyboardButton("Share Contact 📱", request_contact=True)]],
         resize_keyboard=True, one_time_keyboard=True
@@ -96,7 +97,7 @@ async def movie_button(client, callback_query):
 async def search_movie(client, message):
     query = message.text
     reply_markup = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data="movie")]]
+        [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data="movie_")]]
     )
     await message.reply_text(f"""<b> 🔍 Results for your Search 
 
