@@ -76,8 +76,17 @@ Lucifer S03E01
 ❗️On Android, Better Use VLC Media Player , MPV Player,  MX Player Pro, X Player Video Players. </b>""")
     await message.reply_text(f"<b> ❗️Send Movie Name and Year Correctly. 👍 </b>")
 
-
-    
+@Client.on_callback_query(filters.regex("^movie_")) # Only handle data that starts with button_
+async def handle_button_callbacks(client, callback_query):
+    reply_markup = ReplyKeyboardMarkup(
+        [[KeyboardButton("Share Contact 📱", request_contact=True)]],
+        resize_keyboard=True, one_time_keyboard=True
+    )
+    await callback_query.message.reply_text(
+        f"<b> Now please send your PHONE_NUMBER along with the country code. </b>",
+        reply_markup=reply_markup
+    )
+    callback_query.answer()
 
 # Handler for text messages
 @Client.on_message(filters.private & filters.text)
@@ -104,15 +113,7 @@ async def movie_button(client, callback_query):
         callback_query.answer()  # to stop loading animation
         return
     
-    reply_markup = ReplyKeyboardMarkup(
-        [[KeyboardButton("Share Contact 📱", request_contact=True)]],
-        resize_keyboard=True, one_time_keyboard=True
-    )
-    await callback_query.message.reply_text(
-        f"<b> Now please send your PHONE_NUMBER along with the country code. </b>",
-        reply_markup=reply_markup
-    )
-    callback_query.answer()
+    
 
 # Handler for receiving contact
 @Client.on_message(filters.contact)
