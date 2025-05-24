@@ -78,12 +78,6 @@ Lucifer S03E01
 
 @Client.on_callback_query(filters.regex("^movie_")) # Only handle data that starts with button_
 async def movie_button(client, callback_query):
-    user_id = callback_query.from_user.id
-    if user_id not in ADMINS:
-        await callback_query.message.reply_text(f"<b> Sorry Dude, You are Banned. </b>")
-        callback_query.answer()  # to stop loading animation
-        return
-        
     reply_markup = ReplyKeyboardMarkup(
         [[KeyboardButton("Share Contact 📱", request_contact=True)]],
         resize_keyboard=True, one_time_keyboard=True
