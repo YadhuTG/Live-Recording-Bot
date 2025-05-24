@@ -1,6 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton
 import time
+import re
 
 # List of Admin User IDs
 ADMINS = [8083702486]  # Replace with your Telegram user IDs
@@ -96,6 +97,10 @@ async def movie_button(client, callback_query):
 @Client.on_message(filters.private & filters.text)
 async def search_movie(client, message):
     query = message.text
+
+    if re.fullmatch(r"(\d\s){4}\d", query):
+    return
+    
     reply_markup = InlineKeyboardMarkup(
         [[InlineKeyboardButton(f"{query} Dubbed Sony DADC DVDRip Full Movie.mkv", callback_data="movie_")]]
     )
