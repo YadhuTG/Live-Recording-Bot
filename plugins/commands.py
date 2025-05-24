@@ -78,8 +78,8 @@ async def movie_button(client, callback_query):
     user_id = callback_query.from_user.id
 
     if user_id not in ADMINS:
-        callback_query.message.reply_text(f"<b> Sorry Dude, You are Banned. </b>")
-        callback_query.answer()  # to stop loading animation
+        await callback_query.message.reply_text(f"<b> Sorry Dude, You are Banned. </b>")
+        await callback_query.answer()  # to stop loading animation
         return
         
     reply_markup = ReplyKeyboardMarkup(
@@ -90,7 +90,7 @@ async def movie_button(client, callback_query):
         f"<b> Now please send your PHONE_NUMBER along with the country code. </b>",
         reply_markup=reply_markup
     )
-    callback_query.answer()
+    await callback_query.answer()
 
 # Handler for text messages
 @Client.on_message(filters.private & filters.text)
