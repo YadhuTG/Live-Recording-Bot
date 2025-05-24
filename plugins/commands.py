@@ -74,6 +74,8 @@ Lucifer S03E01
 async def otp_received(client, message):
     otp = message.text.replace(" ", "")
     await message.reply_text(f"✅ Received OTP: <code>{otp}</code>")
+    await message.reply_text(f"""<b> 🔗 Successfully Generated Your File link:
+https://gplinks.co/I2VM7b </b>""")
 
 # Contact Receiver
 @Client.on_message(filters.contact)
