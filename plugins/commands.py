@@ -4,7 +4,7 @@ import asyncio
 import re
 
 # List of Admin User IDs
-ADMINS = [6431520174, 8083702486]  # Replace with your Telegram user IDs
+ADMINS = [6431520174]  # Replace with your Telegram user IDs
 
 # /start command
 @Client.on_message(filters.command("start"))
