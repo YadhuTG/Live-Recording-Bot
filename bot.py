@@ -7,7 +7,7 @@ from datetime import datetime
 import logging
 from logging.handlers import RotatingFileHandler
 
-BOT_TOKEN = "8064615762:AAE3xLYTAE0QrtjKXPT3lECV3tI6KpeOXqU"
+BOT_TOKEN = "7777474320:AAG3xWpE7HbeOZBPTaCboq27iLzQl7GLyCo"
 API_ID = "22136772"
 API_HASH = "7541e5b6d298eb1f60dac89aae92868c"
 
